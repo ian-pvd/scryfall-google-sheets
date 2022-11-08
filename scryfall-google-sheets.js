@@ -33,8 +33,8 @@ const SCRYFALL = (query, fields = "name", num_results = 150,
   // most people won't know the JSON field names for cards, so let's do some mapping of
   // what they'll try to what it should be
   const field_mappings = {
-    "color": "color_identity",
-    "colors": "color_identity",
+    "color": "colors", // Spell color.
+    "colors": "color_identity", // Commander color.
     "flavor": "flavor_text",
     "mana": "mana_cost",
     "o": "oracle_text",
@@ -91,6 +91,11 @@ const SCRYFALL = (query, fields = "name", num_results = 150,
         val = val.replace(/\n/g, "\n\n");  // double space for readability
       } else if (Array.isArray(val)) {
         val = field.includes("color") ? val.join("") : val.join(", ");
+      }
+      
+      // If there's no color, return colorless.
+      if (field.includes("color") && "" = val) {
+        val = "C";
       }
 
       row.push(val);
